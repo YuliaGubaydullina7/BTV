@@ -33,6 +33,9 @@ public class PlayTestBTV {
         open("https://bolshoe.tv/promo/test/movie/50752"); //телеканал ЕК
         $("#id_play").click();
         $(".player").should(visible, Duration.ofSeconds(20));
+        open("https://bolshoe.tv/promo/test/movie/42118/"); //TVIGLE
+        $("#id_play").click();
+        $(".player").should(visible, Duration.ofSeconds(20));
         open("https://bolshoe.tv/promo/test/tv/6291/"); //бесплатный тв-канал
         $("#id_channel_play").click();
         $(".player__channel").should(visible, Duration.ofSeconds(20));
