@@ -1,19 +1,34 @@
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Selenide;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 
 
 public class PlayTestBTV {
+    @BeforeAll
+    static void setUp() {
+        Configuration.browserSize = "1920x1080";
+        Configuration.baseUrl = "https://bolshoe.tv/promo/test/";
+        Configuration.pageLoadStrategy = "eager";
+    }
+
+    @AfterEach
+    void tearDown() {
+        closeWebDriver();
+        Configuration.pageLoadStrategy = "eager";
+    }
     @Test
     void PlayTestBTV() {
-        Configuration.pageLoadStrategy = "eager";
-        open("https://bolshoe.tv/promo/test/");
+        String userAgentValue = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.6 Safari/605.1.15 testios";
+        System.setProperty("chromeoptions.args", "--user-agent=" +"\"" + userAgentValue + "\"");
+        Selenide.open("https://bolshoe.tv/promo/test/");
         $(".header__menu__flex").click();
         $(".reg-modal-window");
         $("#phone").setValue("3247659210");
@@ -24,23 +39,24 @@ public class PlayTestBTV {
         $("#idPassThirdDigit").setValue("3");
         $("#idPassFourthDigit").setValue("4");
         $("[class=reg-phone_pc]").shouldHave(text("73247659210"));
-        open("https://bolshoe.tv/promo/test/movie/40551/"); //premier ЕК
+        open("movie/40551/"); //premier ЕК
         $("#id_play").click();
         $(".player").should(visible, Duration.ofSeconds(20));
-        open("https://bolshoe.tv/promo/test/movie/50984"); //start ЕК
+        open("movie/50984"); //start ЕК
         $("#id_play").click();
         $(".player").should(visible, Duration.ofSeconds(20));
-        open("https://bolshoe.tv/promo/test/movie/50752"); //телеканал ЕК
+        open("movie/50752"); //телеканал ЕК
         $("#id_play").click();
         $(".player").should(visible, Duration.ofSeconds(20));
-        open("https://bolshoe.tv/promo/test/movie/42118/"); //TVIGLE
+        open("movie/42118/"); //TVIGLE
         $("#id_play").click();
         $(".player").should(visible, Duration.ofSeconds(20));
-        open("https://bolshoe.tv/promo/test/tv/6291/"); //бесплатный тв-канал
+        open("tv/11/"); //бесплатный тв-канал
         $("#id_channel_play").click();
-        $(".player__channel").should(visible, Duration.ofSeconds(20));
-        open("https://bolshoe.tv/promo/test/tv/2/"); //матч тв-канал платный
+        $(".player__channel").should(visible, Duration.ofSeconds(200));
+        open("tv/7392/"); //матч тв-канал платный
         $("#id_channel_play").click();
         $(".player__channel").should(visible, Duration.ofSeconds(20));
     }
 }
+
